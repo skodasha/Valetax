@@ -10,6 +10,8 @@ type InputContainerPropsType = {
   toCurrency: CurrencyType;
   fromCurrency: CurrencyType;
   onAmountChange: (value: string) => void;
+  onFromCurrencyChange: (currency: CurrencyType) => void;
+  onToCurrencyChange: (currency: CurrencyType) => void;
   onSwapCurrenciesClick: () => void;
 };
 
@@ -18,6 +20,8 @@ export const InputContainer = ({
   toCurrency,
   fromCurrency,
   onAmountChange,
+  onFromCurrencyChange,
+  onToCurrencyChange,
   onSwapCurrenciesClick,
 }: InputContainerPropsType) => {
   return (
@@ -37,11 +41,8 @@ export const InputContainer = ({
         <div className={styles.currenciesSection}>
           <CurrencyGroup
             label="From"
-            currency={fromCurrency.code}
-            currencyName={fromCurrency.name}
-            symbol={fromCurrency.symbol}
-            // TODO: add onFromCurrencyClick
-            onClick={() => {}}
+            currency={fromCurrency}
+            onCurrencyChange={onFromCurrencyChange}
           />
 
           <button className={styles.swapButton} onClick={onSwapCurrenciesClick}>
@@ -50,11 +51,8 @@ export const InputContainer = ({
 
           <CurrencyGroup
             label="To"
-            currency={toCurrency.code}
-            currencyName={toCurrency.name}
-            symbol={toCurrency.symbol}
-            // TODO: add onToCurrencyClick
-            onClick={() => {}}
+            currency={toCurrency}
+            onCurrencyChange={onToCurrencyChange}
           />
         </div>
       </div>

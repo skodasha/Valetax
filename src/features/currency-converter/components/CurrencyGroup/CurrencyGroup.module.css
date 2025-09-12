@@ -36,6 +36,11 @@
   color: var(--color-text-info);
 }
 
+.symbol {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 .currencyInfo {
   display: flex;
   flex-direction: column;

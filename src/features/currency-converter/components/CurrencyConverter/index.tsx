@@ -3,6 +3,7 @@ import {
   DEFAULT_FROM_CURRENCY,
   DEFAULT_TO_CURRENCY,
 } from '@/constants/currencies';
+import { CurrencyType } from '@/types/currency';
 import { InputContainer } from '../InputContainer';
 import { ResultContainer } from '../ResultContainer';
 
@@ -15,6 +16,14 @@ export const CurrencyConverter = () => {
 
   const handleAmountChange = (value: string) => {
     setAmount(value);
+  };
+
+  const handleFromCurrencyChange = (currency: CurrencyType) => {
+    setFromCurrency(currency);
+  };
+
+  const handleToCurrencyChange = (currency: CurrencyType) => {
+    setToCurrency(currency);
   };
 
   const handleSwapCurrenciesClick = () => {
@@ -30,6 +39,8 @@ export const CurrencyConverter = () => {
         fromCurrency={fromCurrency}
         toCurrency={toCurrency}
         onAmountChange={handleAmountChange}
+        onFromCurrencyChange={handleFromCurrencyChange}
+        onToCurrencyChange={handleToCurrencyChange}
         onSwapCurrenciesClick={handleSwapCurrenciesClick}
       />
       <ResultContainer />
