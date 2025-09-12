@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { CURRENCIES } from '@/constants/currencies';
 import { CurrencyType } from '@/types/currency';
 import CloseIcon from '@/assets/icons/close-icon.svg';
 import SearchIcon from '@/assets/icons/search-icon.svg';
@@ -10,6 +9,7 @@ import styles from './CurrencySelectionModal.module.css';
 type CurrencySelectionModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  availableCurrencies: CurrencyType[];
   onSelectCurrency: (currency: CurrencyType) => void;
   selectedCurrency?: CurrencyType;
 };
@@ -17,6 +17,7 @@ type CurrencySelectionModalProps = {
 export const CurrencySelectionModal = ({
   isOpen,
   onClose,
+  availableCurrencies,
   onSelectCurrency,
   selectedCurrency,
 }: CurrencySelectionModalProps) => {
@@ -24,16 +25,16 @@ export const CurrencySelectionModal = ({
 
   const filteredCurrencies = useMemo(() => {
     if (!searchQuery.trim()) {
-      return CURRENCIES;
+      return availableCurrencies;
     }
 
     const query = searchQuery.toLowerCase();
-    return CURRENCIES.filter(
+    return availableCurrencies.filter(
       currency =>
         currency.name.toLowerCase().includes(query) ||
         currency.code.toLowerCase().includes(query)
     );
-  }, [searchQuery]);
+  }, [searchQuery, availableCurrencies]);
 
   const handleCurrencySelect = (currency: CurrencyType) => {
     onSelectCurrency(currency);

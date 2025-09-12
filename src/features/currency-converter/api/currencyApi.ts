@@ -1,3 +1,5 @@
+import { CurrencyType } from '@/types/currency';
+
 type ExchangeRates = {
   [currencyCode: string]: number;
 };
@@ -25,6 +27,10 @@ type ExchangeRateInfo = {
   rates: ExchangeRates;
 };
 
+type CurrenciesResponse = {
+  [currencyCode: string]: CurrencyType;
+};
+
 const apiUrl = import.meta.env.VITE_CURRENCY_API_URL;
 
 export const fetchExchangeRates = async (
@@ -32,7 +38,9 @@ export const fetchExchangeRates = async (
 ): Promise<ExchangeRates> => {
   try {
     const url =
-      baseCurrency === 'USD' ? apiUrl : `${apiUrl}?base=${baseCurrency}`;
+      baseCurrency === 'USD'
+        ? `${apiUrl}/latest`
+        : `${apiUrl}?base=${baseCurrency}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -56,4 +64,29 @@ export const fetchExchangeRates = async (
     );
   }
 };
-export type { ConversionResult, ExchangeRates, ExchangeRateInfo };
+
+export const fetchAllCurrencies = async (): Promise<CurrencyType[]> => {
+  try {
+    const response = await fetch(`${apiUrl}/currencies`);
+
+    if (response.ok) {
+      const data: CurrenciesResponse = await response.json();
+
+      return Object.entries(data).map(([, currency]) => currency);
+    }
+
+    throw new Error('Failed to fetch currencies from API');
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch currencies: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+};
+
+export type {
+  ConversionResult,
+  ExchangeRates,
+  ExchangeRateInfo,
+  CurrencyType,
+  CurrenciesResponse,
+};

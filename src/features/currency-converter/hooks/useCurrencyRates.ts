@@ -1,12 +1,11 @@
 import { useMemo } from 'react';
-import { CurrencyType } from '@/types/currency';
-import { ExchangeRates } from '../api/currencyApi';
+import { CurrencyType, ExchangeRates } from '../api/currencyApi';
 import { useExchangeRates } from '../queries/currencyQueries';
 import { normalizeDecimalSeparator } from '../utils/numberUtils';
 
 type UseCurrencyRatesParams = {
-  fromCurrency: CurrencyType;
-  toCurrency: CurrencyType;
+  fromCurrency?: CurrencyType;
+  toCurrency?: CurrencyType;
   amount: string;
 };
 
@@ -24,23 +23,26 @@ export const useCurrencyRates = ({
   toCurrency,
   amount,
 }: UseCurrencyRatesParams): UseCurrencyRatesReturn => {
+  const fromCurrencyCode = fromCurrency?.code || '';
+  const toCurrencyCode = toCurrency?.code || '';
+
   const {
     data: rates,
     isLoading,
     error,
     isFetching,
-  } = useExchangeRates(fromCurrency.code);
+  } = useExchangeRates(fromCurrencyCode);
 
   const exchangeRate = useMemo(() => {
     if (!rates) return null;
 
-    const fromRate = rates[fromCurrency.code];
-    const toRate = rates[toCurrency.code];
+    const fromRate = rates[fromCurrencyCode];
+    const toRate = rates[toCurrencyCode];
 
     if (!fromRate || !toRate) return null;
 
     return parseFloat((toRate / fromRate).toFixed(4));
-  }, [rates, fromCurrency.code, toCurrency.code]);
+  }, [rates, fromCurrencyCode, toCurrencyCode]);
 
   const inverseRate = useMemo(() => {
     return exchangeRate ? parseFloat((1 / exchangeRate).toFixed(4)) : null;

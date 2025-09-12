@@ -7,12 +7,14 @@ type CurrencyGroupProps = {
   label: string;
   currency: CurrencyType;
   onCurrencyChange: (currency: CurrencyType) => void;
+  availableCurrencies: CurrencyType[];
 };
 
 const CurrencyGroup = ({
   label,
   currency,
   onCurrencyChange,
+  availableCurrencies,
 }: CurrencyGroupProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,6 +51,7 @@ const CurrencyGroup = ({
         onClose={handleCloseModal}
         onSelectCurrency={handleCurrencySelect}
         selectedCurrency={currency}
+        availableCurrencies={availableCurrencies}
       />
     </>
   );

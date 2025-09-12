@@ -34,9 +34,3 @@ export const refreshExchangeRates = (
     queryKey: currencyQueryKeys.exchangeRatesByBase(baseCurrency),
   });
 };
-
-export const refreshAllExchangeRates = (queryClient: QueryClient) => {
-  queryClient.invalidateQueries({
-    queryKey: currencyQueryKeys.exchangeRates(),
-  });
-};

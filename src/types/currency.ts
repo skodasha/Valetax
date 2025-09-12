@@ -1,11 +1,9 @@
 export type CurrencyType = {
-  name: string;
-  symbol: string;
-  symbolNative: string;
-  decimalDigits: number;
-  rounding: number;
   code: string;
-  namePlural: string;
-  countryCodeISO2: string;
-  flagSrc: string;
+  name: string;
+  decimal_digits: number;
+  name_plural: string;
+  rounding: number;
+  symbol: string;
+  symbol_native: string;
 };

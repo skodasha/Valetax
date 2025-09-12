@@ -10,6 +10,7 @@ import styles from './InputContainer.module.css';
 
 type InputContainerPropsType = {
   amount: string;
+  availableCurrencies: CurrencyType[];
   toCurrency: CurrencyType;
   fromCurrency: CurrencyType;
   onAmountChange: (value: string) => void;
@@ -20,6 +21,7 @@ type InputContainerPropsType = {
 
 export const InputContainer = ({
   amount,
+  availableCurrencies,
   toCurrency,
   fromCurrency,
   onAmountChange,
@@ -58,6 +60,7 @@ export const InputContainer = ({
         <div className={styles.currenciesSection}>
           <CurrencyGroup
             label="From"
+            availableCurrencies={availableCurrencies}
             currency={fromCurrency}
             onCurrencyChange={onFromCurrencyChange}
           />
@@ -68,6 +71,7 @@ export const InputContainer = ({
 
           <CurrencyGroup
             label="To"
+            availableCurrencies={availableCurrencies}
             currency={toCurrency}
             onCurrencyChange={onToCurrencyChange}
           />
