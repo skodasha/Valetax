@@ -36,6 +36,7 @@ export const CurrencyConverter = () => {
         isOnline={isOnline}
         baseCurrency={fromCurrency.code}
         isLoading={isLoading}
+        error={error}
       />
       <div className={styles.content}>
         <InputContainer
@@ -53,6 +54,7 @@ export const CurrencyConverter = () => {
           amount={amount}
           error={error}
           isLoading={isLoading}
+          isOnline={isOnline}
           exchangeRate={exchangeRate}
           inverseRate={inverseRate}
           convertedAmount={convertedAmount}

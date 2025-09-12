@@ -10,6 +10,7 @@ type ResultContainerPropsType = {
   amount: string;
   error: string | null;
   isLoading: boolean;
+  isOnline: boolean;
   exchangeRate: number | null;
   inverseRate: number | null;
   convertedAmount: number | null;
@@ -21,21 +22,38 @@ export const ResultContainer = ({
   amount,
   error,
   isLoading,
+  isOnline,
   exchangeRate,
   inverseRate,
   convertedAmount,
 }: ResultContainerPropsType) => {
-  const exchangeValueText = `1 ${fromCurrency.code} = ${exchangeRate} ${toCurrency.code}`;
-  const inverseValueText = `1 ${toCurrency.code} = ${inverseRate} ${fromCurrency.code}`;
+  const hasError = error || (!isOnline && convertedAmount === null);
+
+  const exchangeValueText = `1 ${fromCurrency.code} = ${hasError ? '?' : exchangeRate + ' ' + toCurrency.code}`;
+  const inverseValueText = `1 ${toCurrency.code} = ${hasError ? '?' : inverseRate + ' ' + fromCurrency.code}`;
+
+  const getErrorMessage = () => {
+    if (error) {
+      return error;
+    }
+
+    if (!isOnline && convertedAmount === null) {
+      return 'No internet connection. Please connect to get exchange rates.';
+    }
+
+    return null;
+  };
+
+  const errorMessage = getErrorMessage();
 
   return (
     <Card>
       <h5 className={styles.title}>Conversion result</h5>
 
       <div className={styles.mainResult}>
-        {error ? (
+        {hasError ? (
           <div className={styles.error}>
-            <p>Error loading exchange rates</p>
+            <p>{errorMessage}</p>
           </div>
         ) : isLoading ? (
           <div className={`${styles.skeleton} ${styles.skeletonAmount}`} />
@@ -54,7 +72,7 @@ export const ResultContainer = ({
       <div className={styles.rates}>
         <div className={styles.rate}>
           <p className={styles.rateLabel}>Exchange Rate:</p>
-          {error || isLoading ? (
+          {isLoading ? (
             <div className={`${styles.skeleton} ${styles.skeletonRateValue}`} />
           ) : (
             <p className={styles.rateValue}>{exchangeValueText}</p>
@@ -62,7 +80,7 @@ export const ResultContainer = ({
         </div>
         <div className={styles.rate}>
           <p className={styles.rateLabel}>Inverse Rate:</p>
-          {error || isLoading ? (
+          {isLoading ? (
             <div className={`${styles.skeleton} ${styles.skeletonRateValue}`} />
           ) : (
             <p className={styles.rateValue}>{inverseValueText}</p>

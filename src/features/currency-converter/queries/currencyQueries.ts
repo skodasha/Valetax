@@ -15,6 +15,8 @@ export const exchangeRatesQueryOptions = (
   queryFn: () => fetchExchangeRates(baseCurrency),
   staleTime: 5 * 60 * 1000,
   gcTime: 24 * 60 * 60 * 1000,
+  refetchInterval: 5 * 60 * 1000,
+  refetchIntervalInBackground: true,
   refetchOnWindowFocus: true,
   refetchOnReconnect: true,
   retry: 1,

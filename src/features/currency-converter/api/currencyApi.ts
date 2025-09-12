@@ -36,7 +36,11 @@ export const fetchExchangeRates = async (
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (response.status === 429) {
+        throw new Error('Too many requests');
+      } else {
+        throw new Error(response.statusText);
+      }
     }
 
     const data: FxRatesResponse = await response.json();
