@@ -5,6 +5,7 @@ import {
 } from '@/constants/currencies';
 import { InputContainer } from '../InputContainer';
 import { ResultContainer } from '../ResultContainer';
+import { StatusBar } from '../StatusBar';
 
 import styles from './CurrencyConverter.module.css';
 
@@ -20,20 +21,28 @@ export const CurrencyConverter = () => {
 
   return (
     <div className={styles.currencyConverter}>
-      <InputContainer
-        amount={amount}
-        fromCurrency={fromCurrency}
-        toCurrency={toCurrency}
-        onAmountChange={setAmount}
-        onFromCurrencyChange={setFromCurrency}
-        onToCurrencyChange={setToCurrency}
-        onSwapCurrenciesClick={handleSwapCurrenciesClick}
+      <StatusBar
+        isOnline={true}
+        lastUpdated={new Date()}
+        onRefresh={() => {}}
+        isLoading={false}
       />
-      <ResultContainer
-        fromCurrency={fromCurrency}
-        toCurrency={toCurrency}
-        amount={amount}
-      />
+      <div className={styles.content}>
+        <InputContainer
+          amount={amount}
+          fromCurrency={fromCurrency}
+          toCurrency={toCurrency}
+          onAmountChange={setAmount}
+          onFromCurrencyChange={setFromCurrency}
+          onToCurrencyChange={setToCurrency}
+          onSwapCurrenciesClick={handleSwapCurrenciesClick}
+        />
+        <ResultContainer
+          fromCurrency={fromCurrency}
+          toCurrency={toCurrency}
+          amount={amount}
+        />
+      </div>
     </div>
   );
 };
