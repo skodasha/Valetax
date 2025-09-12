@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/Card';
 import SwapIcon from '@/assets/icons/switch-icon.svg';
 import { CurrencyType } from '@/types/currency';
+import { useDebounce } from '@/hooks/useDebounce';
 import { handleAmountKeyDown } from '../../utils/numberUtils';
 import CurrencyGroup from '../CurrencyGroup';
 
@@ -25,6 +27,19 @@ export const InputContainer = ({
   onToCurrencyChange,
   onSwapCurrenciesClick,
 }: InputContainerPropsType) => {
+  const [inputValue, setInputValue] = useState(amount);
+
+  const debouncedOnAmountChange = useDebounce(onAmountChange, 250);
+
+  const handleInputChange = (value: string) => {
+    setInputValue(value);
+    debouncedOnAmountChange(value);
+  };
+
+  useEffect(() => {
+    setInputValue(amount);
+  }, [amount]);
+
   return (
     <Card>
       <div className={styles.inputContainer}>
@@ -33,9 +48,9 @@ export const InputContainer = ({
           <input
             type="text"
             className={styles.amountInput}
-            value={amount}
-            onChange={e => onAmountChange(e.target.value)}
-            onKeyDown={e => handleAmountKeyDown(e, amount)}
+            value={inputValue}
+            onChange={e => handleInputChange(e.target.value)}
+            onKeyDown={e => handleAmountKeyDown(e, inputValue)}
             placeholder="Enter amount"
           />
         </div>

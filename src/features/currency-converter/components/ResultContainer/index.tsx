@@ -1,28 +1,30 @@
 import { Card } from '@/components/Card';
 import { CurrencyType } from '@/types/currency';
-import { useCurrencyRates } from '../../hooks/useCurrencyRates';
+import { normalizeDecimalSeparator } from '../../utils/numberUtils';
 
 import styles from './ResultContainer.module.css';
-import { normalizeDecimalSeparator } from '../../utils/numberUtils';
 
 type ResultContainerPropsType = {
   fromCurrency: CurrencyType;
   toCurrency: CurrencyType;
   amount: string;
+  error: string | null;
+  isLoading: boolean;
+  exchangeRate: number | null;
+  inverseRate: number | null;
+  convertedAmount: number | null;
 };
 
 export const ResultContainer = ({
   fromCurrency,
   toCurrency,
   amount,
+  error,
+  isLoading,
+  exchangeRate,
+  inverseRate,
+  convertedAmount,
 }: ResultContainerPropsType) => {
-  const { error, isLoading, exchangeRate, inverseRate, convertedAmount } =
-    useCurrencyRates({
-      fromCurrency,
-      toCurrency,
-      amount,
-    });
-
   const exchangeValueText = `1 ${fromCurrency.code} = ${exchangeRate} ${toCurrency.code}`;
   const inverseValueText = `1 ${toCurrency.code} = ${inverseRate} ${fromCurrency.code}`;
 

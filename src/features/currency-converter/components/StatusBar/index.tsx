@@ -1,34 +1,32 @@
-import { useMemo } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from './StatusBar.module.css';
 import WifiIcon from '@/assets/icons/wifi-on-icon.svg';
 import ClockIcon from '@/assets/icons/clock-icon.svg';
 import RefreshIcon from '@/assets/icons/reload-icon.svg';
+import { refreshExchangeRates } from '../../queries/currencyQueries';
+import { formatLastUpdated } from '../../utils/dateUtils';
+import { useLastUpdated } from '../../hooks/useLastUpdated';
 
 type StatusBarProps = {
   isOnline: boolean;
-  lastUpdated: Date | null;
-  onRefresh: () => void;
-  isLoading?: boolean;
+  baseCurrency: string;
+  isLoading: boolean;
 };
 
 export const StatusBar = ({
   isOnline,
-  lastUpdated,
-  onRefresh,
-  isLoading = false,
+  baseCurrency,
+  isLoading,
 }: StatusBarProps) => {
-  const formattedLastUpdated = useMemo(() => {
-    if (!lastUpdated) return 'Never';
+  const queryClient = useQueryClient();
+  const lastUpdated = useLastUpdated(baseCurrency);
 
-    return lastUpdated.toLocaleString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    });
-  }, [lastUpdated]);
+  const handleRefresh = () => {
+    if (isLoading) return;
+    refreshExchangeRates(queryClient, baseCurrency);
+  };
+
+  const formattedLastUpdated = formatLastUpdated(lastUpdated);
 
   return (
     <div className={styles.statusBar}>
@@ -45,9 +43,9 @@ export const StatusBar = ({
       </div>
 
       <button
-        className={`${styles.refreshButton} ${isLoading ? styles.loading : ''}`}
-        onClick={onRefresh}
-        disabled={isLoading || !isOnline}
+        className={styles.refreshButton}
+        onClick={handleRefresh}
+        disabled={!isOnline}
       >
         <RefreshIcon width={12} height={12} />
         <span>Refresh rates</span>

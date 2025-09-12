@@ -24,7 +24,12 @@ export const useCurrencyRates = ({
   toCurrency,
   amount,
 }: UseCurrencyRatesParams): UseCurrencyRatesReturn => {
-  const { data: rates, isLoading, error } = useExchangeRates(fromCurrency.code);
+  const {
+    data: rates,
+    isLoading,
+    error,
+    isFetching,
+  } = useExchangeRates(fromCurrency.code);
 
   const exchangeRate = useMemo(() => {
     if (!rates) return null;
@@ -52,7 +57,7 @@ export const useCurrencyRates = ({
 
   return {
     rates: rates || null,
-    isLoading,
+    isLoading: isLoading || isFetching,
     error: error?.message || null,
     exchangeRate,
     inverseRate,

@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions, QueryClient } from '@tanstack/react-query';
 import { fetchExchangeRates, ExchangeRates } from '../api/currencyApi';
 
 export const currencyQueryKeys = {
@@ -22,4 +22,19 @@ export const exchangeRatesQueryOptions = (
 
 export const useExchangeRates = (baseCurrency: string) => {
   return useQuery(exchangeRatesQueryOptions(baseCurrency));
+};
+
+export const refreshExchangeRates = (
+  queryClient: QueryClient,
+  baseCurrency: string
+) => {
+  queryClient.invalidateQueries({
+    queryKey: currencyQueryKeys.exchangeRatesByBase(baseCurrency),
+  });
+};
+
+export const refreshAllExchangeRates = (queryClient: QueryClient) => {
+  queryClient.invalidateQueries({
+    queryKey: currencyQueryKeys.exchangeRates(),
+  });
 };

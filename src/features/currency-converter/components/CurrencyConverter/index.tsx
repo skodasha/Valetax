@@ -3,6 +3,8 @@ import {
   DEFAULT_FROM_CURRENCY,
   DEFAULT_TO_CURRENCY,
 } from '@/constants/currencies';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
+import { useCurrencyRates } from '../../hooks/useCurrencyRates';
 import { InputContainer } from '../InputContainer';
 import { ResultContainer } from '../ResultContainer';
 import { StatusBar } from '../StatusBar';
@@ -10,9 +12,18 @@ import { StatusBar } from '../StatusBar';
 import styles from './CurrencyConverter.module.css';
 
 export const CurrencyConverter = () => {
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState('1');
   const [fromCurrency, setFromCurrency] = useState(DEFAULT_FROM_CURRENCY);
   const [toCurrency, setToCurrency] = useState(DEFAULT_TO_CURRENCY);
+
+  const isOnline = useOnlineStatus();
+
+  const { error, isLoading, exchangeRate, inverseRate, convertedAmount } =
+    useCurrencyRates({
+      fromCurrency,
+      toCurrency,
+      amount,
+    });
 
   const handleSwapCurrenciesClick = () => {
     setFromCurrency(toCurrency);
@@ -22,10 +33,9 @@ export const CurrencyConverter = () => {
   return (
     <div className={styles.currencyConverter}>
       <StatusBar
-        isOnline={true}
-        lastUpdated={new Date()}
-        onRefresh={() => {}}
-        isLoading={false}
+        isOnline={isOnline}
+        baseCurrency={fromCurrency.code}
+        isLoading={isLoading}
       />
       <div className={styles.content}>
         <InputContainer
@@ -41,6 +51,11 @@ export const CurrencyConverter = () => {
           fromCurrency={fromCurrency}
           toCurrency={toCurrency}
           amount={amount}
+          error={error}
+          isLoading={isLoading}
+          exchangeRate={exchangeRate}
+          inverseRate={inverseRate}
+          convertedAmount={convertedAmount}
         />
       </div>
     </div>
