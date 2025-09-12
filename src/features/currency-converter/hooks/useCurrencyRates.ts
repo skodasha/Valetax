@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { CurrencyType } from '@/types/currency';
-import { currencyService, ExchangeRates } from '../services/currencyService';
+import { ExchangeRates } from '../api/currencyApi';
+import { useExchangeRates } from '../queries/currencyQueries';
 import { normalizeDecimalSeparator } from '../utils/numberUtils';
 
 type UseCurrencyRatesParams = {
@@ -23,27 +24,7 @@ export const useCurrencyRates = ({
   toCurrency,
   amount,
 }: UseCurrencyRatesParams): UseCurrencyRatesReturn => {
-  const [rates, setRates] = useState<ExchangeRates | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchRates = useCallback(async (fromCurrency: string) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const rates = await currencyService.fetchExchangeRates(fromCurrency);
-      setRates(rates);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error occurred');
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchRates(fromCurrency.code);
-  }, [fromCurrency, fetchRates]);
+  const { data: rates, isLoading, error } = useExchangeRates(fromCurrency.code);
 
   const exchangeRate = useMemo(() => {
     if (!rates) return null;
@@ -70,9 +51,9 @@ export const useCurrencyRates = ({
   }, [amount, exchangeRate]);
 
   return {
-    rates,
+    rates: rates || null,
     isLoading,
-    error,
+    error: error?.message || null,
     exchangeRate,
     inverseRate,
     convertedAmount,
