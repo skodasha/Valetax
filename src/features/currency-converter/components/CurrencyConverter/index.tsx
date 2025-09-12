@@ -43,7 +43,13 @@ export const CurrencyConverter = () => {
         onToCurrencyChange={handleToCurrencyChange}
         onSwapCurrenciesClick={handleSwapCurrenciesClick}
       />
-      <ResultContainer />
+      <ResultContainer
+        fromCurrency={fromCurrency}
+        toCurrency={toCurrency}
+        // TODO: add real data
+        exchangeRate="1.2537"
+        inverseRate="0.8873"
+      />
     </div>
   );
 };

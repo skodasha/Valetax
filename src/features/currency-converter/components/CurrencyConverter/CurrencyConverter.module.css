@@ -4,6 +4,7 @@
   gap: 1.875rem;
   display: grid;
   grid-template-columns: 2fr 1fr;
+  align-items: start;
 }
 
 @media (max-width: 768px) {

@@ -1,11 +1,69 @@
-.resultContainer {
-  padding: 1.5rem;
+.title {
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: var(--color-text-primary);
+}
+
+.mainResult {
+  margin-bottom: 1.5rem;
+  width: 100%;
   text-align: center;
 }
 
-.title {
+.amount {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  font-size: 2rem;
+}
+
+.base {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-border-primary);
+  margin: 1.5rem 0;
+}
+
+.rates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rateLabel {
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.rateValue {
   font-weight: 600;
   color: var(--color-text-primary);
-  margin: 0 0 1rem 0;
-  font-size: 1.125rem;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.disclaimer {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0;
 }
