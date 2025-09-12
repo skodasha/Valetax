@@ -1,0 +1,11 @@
+.resultContainer {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+}

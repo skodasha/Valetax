@@ -1,9 +1,15 @@
+import { CurrencyConverter } from '@/features/currency-converter';
+
 import styles from './Home.module.css';
 
 const Home = () => {
   return (
     <div className={styles.home}>
-      <h1>Valetax</h1>
+      <div className={styles.header}>
+        <h1>Currency converter</h1>
+        <p className={styles.subtitle}>Get real-time exchange rates</p>
+      </div>
+      <CurrencyConverter />
     </div>
   );
 };
