@@ -1,6 +1,7 @@
 import { Card } from '@/components/Card';
 import SwapIcon from '@/assets/icons/switch-icon.svg';
 import { CurrencyType } from '@/types/currency';
+import { handleAmountKeyDown } from '../../utils/numberUtils';
 import CurrencyGroup from '../CurrencyGroup';
 
 import styles from './InputContainer.module.css';
@@ -30,10 +31,11 @@ export const InputContainer = ({
         <div className={styles.amountSection}>
           <label className={styles.label}>Amount</label>
           <input
-            type="number"
+            type="text"
             className={styles.amountInput}
             value={amount}
             onChange={e => onAmountChange(e.target.value)}
+            onKeyDown={e => handleAmountKeyDown(e, amount)}
             placeholder="Enter amount"
           />
         </div>

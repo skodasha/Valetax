@@ -1,22 +1,29 @@
 import { Card } from '@/components/Card';
 import { CurrencyType } from '@/types/currency';
+import { useCurrencyRates } from '../../hooks/useCurrencyRates';
+
 import styles from './ResultContainer.module.css';
+import { normalizeDecimalSeparator } from '../../utils/numberUtils';
 
 type ResultContainerPropsType = {
   fromCurrency: CurrencyType;
   toCurrency: CurrencyType;
-  exchangeRate: string;
-  inverseRate: string;
+  amount: string;
 };
 
 export const ResultContainer = ({
   fromCurrency,
   toCurrency,
-  exchangeRate,
-  inverseRate,
+  amount,
 }: ResultContainerPropsType) => {
-  const exchangeValue = `1 ${fromCurrency.code} = ${exchangeRate} ${toCurrency.code}`;
-  const inverseValue = `1 ${toCurrency.code} = ${inverseRate} ${fromCurrency.code}`;
+  const { exchangeRate, inverseRate, convertedAmount } = useCurrencyRates({
+    fromCurrency,
+    toCurrency,
+    amount,
+  });
+
+  const exchangeValueText = `1 ${fromCurrency.code} = ${exchangeRate} ${toCurrency.code}`;
+  const inverseValueText = `1 ${toCurrency.code} = ${inverseRate} ${fromCurrency.code}`;
 
   return (
     <Card>
@@ -25,8 +32,11 @@ export const ResultContainer = ({
       <div className={styles.mainResult}>
         <h3
           className={styles.amount}
-        >{`${toCurrency.symbol} ${exchangeRate}`}</h3>
-        <p className={styles.base}>{`1 ${fromCurrency.code} =`}</p>
+        >{`${toCurrency.symbol} ${convertedAmount}`}</h3>
+
+        <p
+          className={styles.base}
+        >{` ${normalizeDecimalSeparator(amount) || '1'} ${fromCurrency.code} =`}</p>
       </div>
 
       <div className={styles.divider} />
@@ -34,11 +44,11 @@ export const ResultContainer = ({
       <div className={styles.rates}>
         <div className={styles.rate}>
           <p className={styles.rateLabel}>Exchange Rate:</p>
-          <p className={styles.rateValue}>{exchangeValue}</p>
+          <p className={styles.rateValue}>{exchangeValueText}</p>
         </div>
         <div className={styles.rate}>
           <p className={styles.rateLabel}>Inverse Rate:</p>
-          <p className={styles.rateValue}>{inverseValue}</p>
+          <p className={styles.rateValue}>{inverseValueText}</p>
         </div>
       </div>
 

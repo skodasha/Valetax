@@ -3,33 +3,19 @@ import {
   DEFAULT_FROM_CURRENCY,
   DEFAULT_TO_CURRENCY,
 } from '@/constants/currencies';
-import { CurrencyType } from '@/types/currency';
 import { InputContainer } from '../InputContainer';
 import { ResultContainer } from '../ResultContainer';
 
 import styles from './CurrencyConverter.module.css';
 
 export const CurrencyConverter = () => {
-  const [amount, setAmount] = useState<string>('1');
+  const [amount, setAmount] = useState('');
   const [fromCurrency, setFromCurrency] = useState(DEFAULT_FROM_CURRENCY);
   const [toCurrency, setToCurrency] = useState(DEFAULT_TO_CURRENCY);
 
-  const handleAmountChange = (value: string) => {
-    setAmount(value);
-  };
-
-  const handleFromCurrencyChange = (currency: CurrencyType) => {
-    setFromCurrency(currency);
-  };
-
-  const handleToCurrencyChange = (currency: CurrencyType) => {
-    setToCurrency(currency);
-  };
-
   const handleSwapCurrenciesClick = () => {
-    const temp = fromCurrency;
     setFromCurrency(toCurrency);
-    setToCurrency(temp);
+    setToCurrency(fromCurrency);
   };
 
   return (
@@ -38,17 +24,15 @@ export const CurrencyConverter = () => {
         amount={amount}
         fromCurrency={fromCurrency}
         toCurrency={toCurrency}
-        onAmountChange={handleAmountChange}
-        onFromCurrencyChange={handleFromCurrencyChange}
-        onToCurrencyChange={handleToCurrencyChange}
+        onAmountChange={setAmount}
+        onFromCurrencyChange={setFromCurrency}
+        onToCurrencyChange={setToCurrency}
         onSwapCurrenciesClick={handleSwapCurrenciesClick}
       />
       <ResultContainer
         fromCurrency={fromCurrency}
         toCurrency={toCurrency}
-        // TODO: add real data
-        exchangeRate="1.2537"
-        inverseRate="0.8873"
+        amount={amount}
       />
     </div>
   );
