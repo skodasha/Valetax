@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { CurrencyType } from '@/types/currency';
 import { currencyService, ExchangeRates } from '../services/currencyService';
 import { normalizeDecimalSeparator } from '../utils/numberUtils';
@@ -11,7 +11,7 @@ type UseCurrencyRatesParams = {
 
 type UseCurrencyRatesReturn = {
   rates: ExchangeRates | null;
-  loading: boolean;
+  isLoading: boolean;
   error: string | null;
   exchangeRate: number | null;
   inverseRate: number | null;
@@ -24,12 +24,12 @@ export const useCurrencyRates = ({
   amount,
 }: UseCurrencyRatesParams): UseCurrencyRatesReturn => {
   const [rates, setRates] = useState<ExchangeRates | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchRates = async (fromCurrency: string) => {
+  const fetchRates = useCallback(async (fromCurrency: string) => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
 
       const rates = await currencyService.fetchExchangeRates(fromCurrency);
@@ -37,55 +37,41 @@ export const useCurrencyRates = ({
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error occurred');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchRates(fromCurrency.code);
-  }, [fromCurrency]);
+  }, [fromCurrency, fetchRates]);
 
-  const getExchangeRate = (
-    from: CurrencyType,
-    to: CurrencyType
-  ): number | null => {
+  const exchangeRate = useMemo(() => {
     if (!rates) return null;
 
-    const fromRate = rates[from.code];
-    const toRate = rates[to.code];
+    const fromRate = rates[fromCurrency.code];
+    const toRate = rates[toCurrency.code];
 
     if (!fromRate || !toRate) return null;
 
     return parseFloat((toRate / fromRate).toFixed(4));
-  };
+  }, [rates, fromCurrency.code, toCurrency.code]);
 
-  const getInverseRate = (
-    from: CurrencyType,
-    to: CurrencyType
-  ): number | null => {
-    const exchangeRate = getExchangeRate(from, to);
+  const inverseRate = useMemo(() => {
     return exchangeRate ? parseFloat((1 / exchangeRate).toFixed(4)) : null;
-  };
+  }, [exchangeRate]);
 
-  const getConvertedAmount = (
-    amount: string,
-    exchangeRate: number | null
-  ): number | null => {
+  const convertedAmount = useMemo(() => {
     if (!exchangeRate) return null;
 
     const normalizedAmount = normalizeDecimalSeparator(amount);
     const numericAmount = parseFloat(normalizedAmount) || 1;
 
     return parseFloat((numericAmount * exchangeRate).toFixed(4));
-  };
-
-  const exchangeRate = getExchangeRate(fromCurrency, toCurrency);
-  const inverseRate = getInverseRate(fromCurrency, toCurrency);
-  const convertedAmount = getConvertedAmount(amount, exchangeRate);
+  }, [amount, exchangeRate]);
 
   return {
     rates,
-    loading,
+    isLoading,
     error,
     exchangeRate,
     inverseRate,

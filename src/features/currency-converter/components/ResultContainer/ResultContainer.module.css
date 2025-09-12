@@ -8,6 +8,7 @@
   margin-bottom: 1.5rem;
   width: 100%;
   text-align: center;
+  height: 3rem;
 }
 
 .amount {
@@ -66,4 +67,62 @@
   line-height: 1.4;
   text-align: center;
   margin: 0;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary) 25%,
+    var(--color-border-primary) 50%,
+    var(--color-bg-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeletonAmount {
+  height: 2.4rem;
+  width: 120px;
+  margin: 0 auto 0.25rem auto;
+}
+
+.skeletonBase {
+  height: 0.75rem;
+  width: 80px;
+  margin: 0 auto;
+}
+
+.skeletonRateValue {
+  height: 0.75rem;
+  width: 100px;
+}
+
+.skeletonRateLabel {
+  height: 0.75rem;
+  width: 60px;
+}
+
+.error {
+  text-align: center;
+  color: var(--color-error);
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+}
+
+.error p {
+  margin: 0;
+  font-size: 0.875rem;
 }
