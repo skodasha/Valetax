@@ -1,0 +1,174 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+}
+
+.modal {
+  background-color: var(--color-bg-primary);
+  border-radius: 0.75rem;
+  width: 100%;
+  max-width: 440px;
+  height: 440px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+}
+
+.close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0.75rem 0 1.5rem 0;
+  font-weight: 500;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border-primary);
+  border-radius: 0.5rem;
+  padding: 0 0.75rem 0 0.75rem;
+  transition: all 0.2s ease;
+  margin-bottom: 0.75rem;
+}
+
+.search:focus-within {
+  border: 1px solid #51a2ff;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.searchField {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  outline: none;
+  border-radius: 0.5rem;
+}
+
+.searchField::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  gap: 0.25rem;
+  min-height: 200px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.5rem 0.75rem 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.item:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.item.selected {
+  background-color: var(--color-bg-tertiary);
+}
+
+.item.highlighted {
+  background-color: var(--color-bg-tertiary);
+}
+
+.itemIcon {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-info);
+  border: 1px solid var(--color-border-info);
+}
+
+.symbol {
+  color: var(--color-text-info);
+  font-size: 0.6rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.itemContent {
+  flex: 1;
+}
+
+.itemCode {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 0.125rem;
+}
+
+.itemName {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.list::-webkit-scrollbar {
+  width: 2px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: 3px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: var(--color-border-primary);
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .overlay {
+    padding: 0.5rem;
+  }
+
+  .modal {
+    height: 80vh;
+    max-height: 500px;
+  }
+
+  .list {
+    min-height: 150px;
+  }
+}

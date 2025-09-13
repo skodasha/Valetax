@@ -1,0 +1,25 @@
+.currencyConverter {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.content {
+  max-width: 980px;
+  display: grid;
+  gap: 1.875rem;
+  grid-template-columns: 2fr 1fr;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .currencyConverter {
+    width: 100%;
+  }
+
+  .content {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+}

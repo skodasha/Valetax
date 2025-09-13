@@ -1,0 +1,61 @@
+.currencyGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+}
+
+.currencyButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-border-primary);
+  border-radius: 0.5rem;
+  background-color: var(--color-bg-secondary);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.currencyIcon {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-info);
+  border: 1px solid var(--color-border-info);
+  color: var(--color-text-info);
+}
+
+.symbol {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.currencyInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1;
+}
+
+.currencyCode {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.currencyName {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+}

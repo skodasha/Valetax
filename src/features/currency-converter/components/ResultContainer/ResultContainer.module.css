@@ -1,0 +1,131 @@
+.title {
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: var(--color-text-primary);
+}
+
+.mainResult {
+  margin-bottom: 1.5rem;
+  width: 100%;
+  text-align: center;
+  min-height: 3rem;
+}
+
+.amount {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  font-size: 2rem;
+}
+
+.base {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-border-primary);
+  margin: 1.5rem 0;
+}
+
+.rates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rateLabel {
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.rateValue {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.disclaimer {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary) 25%,
+    var(--color-border-primary) 50%,
+    var(--color-bg-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeletonAmount {
+  height: 2.4rem;
+  width: 120px;
+  margin: 0 auto 0.25rem auto;
+}
+
+.skeletonBase {
+  height: 0.75rem;
+  width: 80px;
+  margin: 0 auto;
+}
+
+.skeletonRateValue {
+  height: 0.75rem;
+  width: 100px;
+}
+
+.skeletonRateLabel {
+  height: 0.75rem;
+  width: 60px;
+}
+
+.error {
+  text-align: center;
+  color: var(--color-text-error);
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-bg-error);
+}
+
+.error p {
+  margin: 0;
+  font-size: 0.875rem;
+}
