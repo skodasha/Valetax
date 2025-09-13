@@ -8,7 +8,7 @@
   margin-bottom: 1.5rem;
   width: 100%;
   text-align: center;
-  height: 3rem;
+  min-height: 3rem;
 }
 
 .amount {
@@ -114,12 +114,15 @@
 
 .error {
   text-align: center;
-  color: var(--color-error);
+  color: var(--color-text-error);
   height: 2.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-bg-error);
 }
 
 .error p {

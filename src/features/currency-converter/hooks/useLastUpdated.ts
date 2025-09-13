@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { currencyQueryKeys } from '../queries/currencyQueries';
 
-export const useLastUpdated = (baseCurrency: string): Date | null => {
+export const useLastUpdated = (): Date | null => {
   const queryClient = useQueryClient();
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
-    const queryKey = currencyQueryKeys.exchangeRatesByBase(baseCurrency);
+    const queryKey = currencyQueryKeys.exchangeRatesByBase();
 
     const updateLastUpdated = () => {
       const queryState = queryClient.getQueryState(queryKey);
@@ -29,7 +29,7 @@ export const useLastUpdated = (baseCurrency: string): Date | null => {
     });
 
     return unsubscribe;
-  }, [queryClient, baseCurrency]);
+  }, [queryClient]);
 
   return lastUpdated;
 };

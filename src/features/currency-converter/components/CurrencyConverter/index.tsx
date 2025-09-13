@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { useCurrencyRates } from '../../hooks/useCurrencyRates';
 import { useDefaultCurrencies } from '../../hooks/useDefaultCurrencies';
+import { CurrencyType } from '../../api/currencyApi';
 import { InputContainer } from '../InputContainer';
 import { ResultContainer } from '../ResultContainer';
 import { StatusBar } from '../StatusBar';
@@ -9,7 +10,6 @@ import { StatusBar } from '../StatusBar';
 import styles from './CurrencyConverter.module.css';
 
 export const CurrencyConverter = () => {
-  const [amount, setAmount] = useState('1');
   const isOnline = useOnlineStatus();
 
   const {
@@ -18,7 +18,11 @@ export const CurrencyConverter = () => {
     defaultToCurrency,
     isLoading: isCurrenciesLoading,
     error: currenciesError,
+    preferenceAmount,
+    updatePreferences,
   } = useDefaultCurrencies();
+
+  const [amount, setAmount] = useState(preferenceAmount || '1');
   const [fromCurrency, setFromCurrency] = useState(defaultFromCurrency);
   const [toCurrency, setToCurrency] = useState(defaultToCurrency);
 
@@ -34,9 +38,32 @@ export const CurrencyConverter = () => {
     amount,
   });
 
+  const handleAmountChange = (newAmount: string) => {
+    setAmount(newAmount);
+    updatePreferences({ amount: newAmount });
+  };
+
+  const handleFromCurrencyChange = (currency: CurrencyType) => {
+    setFromCurrency(currency);
+    updatePreferences({ fromCurrency: currency });
+  };
+
+  const handleToCurrencyChange = (currency: CurrencyType) => {
+    setToCurrency(currency);
+    updatePreferences({ toCurrency: currency });
+  };
+
   const handleSwapCurrenciesClick = () => {
-    setFromCurrency(toCurrency);
-    setToCurrency(fromCurrency);
+    const newFromCurrency = toCurrency;
+    const newToCurrency = fromCurrency;
+
+    setFromCurrency(newFromCurrency);
+    setToCurrency(newToCurrency);
+
+    updatePreferences({
+      fromCurrency: newFromCurrency,
+      toCurrency: newToCurrency,
+    });
   };
 
   if (isCurrenciesLoading) {
@@ -53,20 +80,16 @@ export const CurrencyConverter = () => {
 
   return (
     <div className={styles.currencyConverter}>
-      <StatusBar
-        isOnline={isOnline}
-        baseCurrency={fromCurrency.code}
-        isLoading={isRatesLoading}
-        error={error}
-      />
+      <StatusBar isOnline={isOnline} isLoading={isRatesLoading} error={error} />
       <div className={styles.content}>
         <InputContainer
           amount={amount}
+          isLoading={isCurrenciesLoading}
           fromCurrency={fromCurrency}
           toCurrency={toCurrency}
-          onAmountChange={setAmount}
-          onFromCurrencyChange={setFromCurrency}
-          onToCurrencyChange={setToCurrency}
+          onAmountChange={handleAmountChange}
+          onFromCurrencyChange={handleFromCurrencyChange}
+          onToCurrencyChange={handleToCurrencyChange}
           onSwapCurrenciesClick={handleSwapCurrenciesClick}
           availableCurrencies={availableCurrencies}
         />

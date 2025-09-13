@@ -32,15 +32,11 @@ type CurrenciesResponse = {
 };
 
 const apiUrl = import.meta.env.VITE_CURRENCY_API_URL;
+export const BASE_CURRENCY = 'EUR';
 
-export const fetchExchangeRates = async (
-  baseCurrency: string = 'USD'
-): Promise<ExchangeRates> => {
+export const fetchExchangeRates = async (): Promise<ExchangeRates> => {
   try {
-    const url =
-      baseCurrency === 'USD'
-        ? `${apiUrl}/latest`
-        : `${apiUrl}?base=${baseCurrency}`;
+    const url = `${apiUrl}/latest?base=${BASE_CURRENCY}`;
     const response = await fetch(url);
 
     if (!response.ok) {

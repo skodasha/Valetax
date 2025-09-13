@@ -10,26 +10,20 @@ import { useLastUpdated } from '../../hooks/useLastUpdated';
 
 type StatusBarProps = {
   isOnline: boolean;
-  baseCurrency: string;
   isLoading: boolean;
   error: string | null;
 };
 
-export const StatusBar = ({
-  isOnline,
-  baseCurrency,
-  isLoading,
-  error,
-}: StatusBarProps) => {
+export const StatusBar = ({ isOnline, isLoading, error }: StatusBarProps) => {
   const queryClient = useQueryClient();
-  const lastUpdated = useLastUpdated(baseCurrency);
+  const lastUpdated = useLastUpdated();
 
   const handleRefreshInternal = () => {
     if (isLoading) return;
-    refreshExchangeRates(queryClient, baseCurrency);
+    refreshExchangeRates(queryClient);
   };
 
-  const handleRefresh = useDebounce(handleRefreshInternal, 500);
+  const handleRefresh = useDebounce(handleRefreshInternal, 250);
 
   const formattedLastUpdated = formatLastUpdated(lastUpdated);
 

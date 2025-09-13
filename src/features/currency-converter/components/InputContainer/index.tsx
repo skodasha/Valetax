@@ -13,11 +13,14 @@ type InputContainerPropsType = {
   availableCurrencies: CurrencyType[];
   toCurrency: CurrencyType;
   fromCurrency: CurrencyType;
+  isLoading: boolean;
   onAmountChange: (value: string) => void;
   onFromCurrencyChange: (currency: CurrencyType) => void;
   onToCurrencyChange: (currency: CurrencyType) => void;
   onSwapCurrenciesClick: () => void;
 };
+
+const MAX_AMOUNT_LENGTH = 11;
 
 export const InputContainer = ({
   amount,
@@ -34,8 +37,10 @@ export const InputContainer = ({
   const debouncedOnAmountChange = useDebounce(onAmountChange, 250);
 
   const handleInputChange = (value: string) => {
-    setInputValue(value);
-    debouncedOnAmountChange(value);
+    if (value.length <= MAX_AMOUNT_LENGTH) {
+      setInputValue(value);
+      debouncedOnAmountChange(value);
+    }
   };
 
   useEffect(() => {
@@ -54,6 +59,7 @@ export const InputContainer = ({
             onChange={e => handleInputChange(e.target.value)}
             onKeyDown={e => handleAmountKeyDown(e, inputValue)}
             placeholder="Enter amount"
+            maxLength={MAX_AMOUNT_LENGTH}
           />
         </div>
 

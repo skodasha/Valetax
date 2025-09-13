@@ -11,8 +11,8 @@ export const currenciesQueryOptions = (): UseQueryOptions<CurrencyType[]> => ({
   queryFn: () => fetchAllCurrencies(),
   staleTime: 0,
   gcTime: 7 * 24 * 60 * 60 * 1000,
-  refetchOnWindowFocus: true,
-  refetchOnReconnect: true,
+  refetchOnWindowFocus: false,
+  refetchOnReconnect: false,
   retry: 2,
 });
 
