@@ -106,6 +106,10 @@
   background-color: var(--color-bg-tertiary);
 }
 
+.item.highlighted {
+  background-color: var(--color-bg-tertiary);
+}
+
 .itemIcon {
   width: 1.875rem;
   height: 1.875rem;
